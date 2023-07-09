@@ -11,22 +11,48 @@ class SimpleCrudDemo extends StatefulWidget {
 
 class _SimpleCrudDemoState extends State<SimpleCrudDemo> {
   final TextEditingController _controller = TextEditingController();
+  late Future<List<Map>> futureUserData;
+  @override
+  void initState() {
+    futureUserData = FirebaseApi.selectData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          TextField(
-            controller: _controller,
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              await FirebaseApi.setUserdata(username: _controller.text);
-              setState(() {});
-            },
-            child: Text('submit'),
-          )
-        ],
+      body: SafeArea(
+        child: Column(
+          children: [
+            TextField(
+              controller: _controller,
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                await FirebaseApi.setUserdata(username: _controller.text);
+                futureUserData = FirebaseApi.selectData();
+                setState(() {});
+              },
+              child: Text('submit'),
+            ),
+            FutureBuilder(
+              future: futureUserData,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Expanded(
+                    child: ListView.builder(
+                        itemBuilder: (context, index) => ListTile(
+                              title: Text(snapshot.data![index]['username']),
+                            ),
+                        itemCount: snapshot.data!.length),
+                  );
+                } else {
+                  return const Text('there  is no data');
+                }
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
