@@ -9,165 +9,185 @@ class RagistrerPage extends StatefulWidget {
 }
 
 class _RagistrerPageState extends State<RagistrerPage> {
-  final TextEditingController _firstName = TextEditingController();
-  final TextEditingController _middleName = TextEditingController();
-  final TextEditingController _lastName = TextEditingController();
-  String gender = "gender";
-  String male = 'Male';
-  String female = 'female';
-  bool cricket = false;
-  bool footboll = false;
-  bool swimming = false;
-  double ageslider = 0;
-  bool active = false;
-  List<String> stream = ['gaming', 'swimmig', 'footbll', 'traveling'];
-  String? selectvalue;
+  static final TextEditingController _firstName = TextEditingController();
+  static final TextEditingController _middleName = TextEditingController();
+  static final TextEditingController _lastName = TextEditingController();
+  List hobbie = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: SafeArea(
-          child: Column(
-            children: [
-              TextField(
-                controller: _firstName,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: SafeArea(
+            child: Column(
+              children: [
+                TextField(
+                  controller: _firstName,
+                  decoration: InputDecoration(
+                    hintText: 'FirstName',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                   ),
                 ),
-              ),
-              TextField(
-                controller: _middleName,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
+                TextField(
+                  controller: _middleName,
+                  decoration: InputDecoration(
+                    hintText: 'MiddleName',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                   ),
                 ),
-              ),
-              TextField(
-                controller: _lastName,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
+                TextField(
+                  controller: _lastName,
+                  decoration: InputDecoration(
+                    hintText: 'LastName',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                   ),
                 ),
-              ),
-              Row(
-                children: [
-                  const Text("Gender:-"),
-                  Radio(
-                    value: male,
-                    groupValue: gender,
-                    onChanged: (value) {
-                      gender = value!;
-                      setState(() {});
-                    },
-                  ),
-                  const Text('male'),
-                  Radio(
-                    value: female,
-                    groupValue: gender,
-                    onChanged: (value) {
-                      gender = value!;
-                      setState(() {});
-                    },
-                  ),
-                  const Text('female'),
-                ],
-              ),
-              Row(
-                children: [
-                  const Text('hobby:-'),
-                  Checkbox(
-                    value: cricket,
-                    onChanged: (value) {
-                      cricket = value!;
-                      setState(() {});
-                    },
-                  ),
-                  const Text('cricket'),
-                  Checkbox(
-                    value: footboll,
-                    onChanged: (value) {
-                      footboll = value!;
-                      setState(() {});
-                    },
-                  ),
-                  const Text('footboll'),
-                  Checkbox(
-                    value: swimming,
-                    onChanged: (value) {
-                      swimming = value!;
-                      setState(() {});
-                    },
-                  ),
-                  const Text('swimming'),
-                ],
-              ),
-              Row(
-                children: [
-                  const Text('age'),
-                  Slider(
-                    value: ageslider,
-                    onChanged: (value) {
-                      ageslider = value;
-                      setState(() {});
-                    },
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  const Text('is active?:-'),
-                  Switch(
-                    value: active,
-                    onChanged: (value) {
-                      active = value;
-                      setState(() {});
-                    },
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  const Text('stream:-'),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: DropdownButton(
-                      hint: const Text(
-                        'drop heare',
-                        style: TextStyle(color: Colors.grey),
-                      ),
-                      items: stream
-                          .map(
-                            (e) => DropdownMenuItem(
-                              // ignore: sort_child_properties_last
-                              child: Text(e),
-                              value: e,
-                            ),
-                          )
-                          .toList(),
+                Row(
+                  children: [
+                    const Text("Gender:-"),
+                    Radio(
+                      value: RagisterForm.male,
+                      groupValue: RagisterForm.gender,
                       onChanged: (value) {
-                        selectvalue = value!;
+                        RagisterForm.gender = value!;
                         setState(() {});
                       },
                     ),
-                  )
-                ],
-              ),
-              ElevatedButton(
-                onPressed: () async {
-                  await RagisterForm.setData(
+                    const Text('male'),
+                    Radio(
+                      value: RagisterForm.female,
+                      groupValue: RagisterForm.gender,
+                      onChanged: (value) {
+                        RagisterForm.gender = value!;
+                        setState(() {});
+                      },
+                    ),
+                    const Text('female'),
+                  ],
+                ),
+                Row(
+                  children: [
+                    const Text('hobby:-'),
+                    Checkbox(
+                      value: RagisterForm.cricket,
+                      onChanged: (value) {
+                        RagisterForm.cricket = value!;
+                        if (value) {
+                          hobbie.add('cricket');
+                        } else {
+                          hobbie.remove('cricket');
+                        }
+                        setState(() {});
+                      },
+                    ),
+                    const Text('cricket'),
+                    Checkbox(
+                      value: RagisterForm.footboll,
+                      onChanged: (value) {
+                        RagisterForm.footboll = value!;
+                        if (value) {
+                          hobbie.add("footboll");
+                        } else {
+                          hobbie.remove("footboll");
+                        }
+                        setState(() {});
+                      },
+                    ),
+                    const Text('footboll'),
+                    Checkbox(
+                      value: RagisterForm.swimming,
+                      onChanged: (value) {
+                        RagisterForm.swimming = value!;
+                        if (value) {
+                          hobbie.add('swimming');
+                        } else {
+                          hobbie.remove('swimming');
+                        }
+                        setState(() {});
+                      },
+                    ),
+                    const Text('swimming'),
+                  ],
+                ),
+                Row(
+                  children: [
+                    const Text('age'),
+                    Slider(
+                      value: RagisterForm.ageslider,
+                      onChanged: (value) {
+                        RagisterForm.ageslider = value;
+                        setState(() {});
+                      },
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    const Text('is active?:-'),
+                    Switch(
+                      value: RagisterForm.active,
+                      onChanged: (value) {
+                        RagisterForm.active = value;
+                        setState(() {});
+                      },
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    const Text('stream:-'),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: DropdownButton(
+                        value: RagisterForm.selectvalue,
+                        hint: const Text(
+                          'drop heare',
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                        items: RagisterForm.stream
+                            .map(
+                              (e) => DropdownMenuItem(
+                                // ignore: sort_child_properties_last
+                                child: Text(e),
+                                value: e,
+                              ),
+                            )
+                            .toList(),
+                        onChanged: (value) {
+                          RagisterForm.selectvalue = value!;
+                          setState(() {});
+                        },
+                      ),
+                    )
+                  ],
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    await RagisterForm.setData(
                       firstName: _firstName.text,
                       middleName: _middleName.text,
-                      lastName: _lastName.text);
-                  setState(() {});
-                },
-                child: const Text('submit'),
-              ),
-            ],
+                      lastName: _lastName.text,
+                      age: RagisterForm.ageslider,
+                      hobby: hobbie,
+                      isactive: RagisterForm.active,
+                      gender: RagisterForm.gender,
+                      stream: RagisterForm.selectvalue!,
+                    );
+                    setState(() {});
+                  },
+                  child: const Text('submit'),
+                ),
+                Text(
+                    "${RagisterForm.gender} ${RagisterForm.ageslider} $hobbie ${RagisterForm.active} ${RagisterForm.selectvalue}"),
+              ],
+            ),
           ),
         ),
       ),
